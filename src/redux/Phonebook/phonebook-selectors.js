@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 
-export const getItems = state => state.contact.items;
+export const getItems = state => state.contacts.items;
 
 export const getFilterValue = state => state.contacts.filter;
 
