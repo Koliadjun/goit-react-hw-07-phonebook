@@ -1,11 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 import s from './ContactList.module.css';
-import { deleteContact } from '../../redux/Phonebook/phonebook-action';
+import { contactsOperations, contactsSelectors } from 'redux/Phonebook';
 
-function ContactList({ contacts, onClick }) {
+function ContactList() {
+  const dispatch = useDispatch();
+
+  const contacts = useSelector(contactsSelectors.getFilteredData);
+
+  useEffect(() => {
+    dispatch(contactsOperations.fetchContacts());
+  }, [dispatch]);
+
   return (
     <ul className={s.list}>
       {contacts.map(contact => (
@@ -13,7 +20,9 @@ function ContactList({ contacts, onClick }) {
           {contact.name}:<span>{contact.number}</span>
           <button
             className={s.button}
-            onClick={() => onClick(contact.id)}
+            onClick={() =>
+              dispatch(contactsOperations.deleteContacts(contact.id))
+            }
             type="button"
           >
             delete
@@ -24,31 +33,4 @@ function ContactList({ contacts, onClick }) {
   );
 }
 
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-    }),
-    {},
-  ).isRequired,
-  onClick: PropTypes.func.isRequired,
-};
-
-const getFilteredData = (items, filter) => {
-  const normalizeFilter = filter.toLowerCase();
-  return items.filter(contact =>
-    contact.name.toLowerCase().includes(normalizeFilter),
-  );
-};
-
-const mapStateToProps = ({ contacts: { items, filter } }) => ({
-  contacts: getFilteredData(items, filter),
-});
-
-const mapDispatchToProps = dispatch => ({
-  onClick: id => dispatch(deleteContact(id)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default ContactList;
