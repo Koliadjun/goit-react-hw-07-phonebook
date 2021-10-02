@@ -15,11 +15,3 @@ export const getFilteredData = createSelector(
     );
   },
 );
-
-// export const getFilteredData = state => {
-//     const items = getItems(state);
-//     const normalizeFilter = getFilterValue(state).toLowerCase();
-//     return items.filter(contact =>
-//         contact.name.toLowerCase().includes(normalizeFilter),
-//     );
-// };
