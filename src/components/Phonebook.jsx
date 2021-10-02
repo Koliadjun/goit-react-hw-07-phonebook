@@ -5,14 +5,6 @@ import ContactForm from './ContactForm/ContactForm';
 import Filter from './Filter/Filter';
 import ContactList from './ContactList/ContactList';
 function Phonebook() {
-  // const [contactData, setContactData] = useState(
-  //   JSON.parse(window.localStorage.getItem('contacts')) ?? [],
-  // );
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('contacts', JSON.stringify(contactData));
-  // }, [contactData]);
-
   return (
     <>
       <h1 className={s.title}>Phonebook</h1>
