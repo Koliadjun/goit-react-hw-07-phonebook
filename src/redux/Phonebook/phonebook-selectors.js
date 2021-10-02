@@ -1,6 +1,6 @@
 export const getFilteredData = state => {
-  const { items, filter } = state.contacts;
-  const normalizeFilter = filter.toLowerCase();
+  const { items } = state.contacts;
+  const normalizeFilter = getFilterValue(state).toLowerCase();
   return items.filter(contact =>
     contact.name.toLowerCase().includes(normalizeFilter),
   );
