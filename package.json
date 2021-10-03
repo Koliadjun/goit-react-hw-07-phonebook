@@ -22,8 +22,10 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "predeploy": "npm run build",
+    "build:dev": "dotenv -e .env.development react-scripts build",
+    "build:prod": "dotenv -e .env.production react-scripts build",
+    "build": "echo \"Please use build:dev or build:prod \" && exit 1",
+    "predeploy": "npm run build:dev",
     "deploy": "gh-pages -d build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
@@ -49,6 +51,7 @@
     ]
   },
   "devDependencies": {
+    "dotenv-cli": "^4.0.0",
     "eslint": "^7.32.0",
     "husky": "^7.0.1",
     "lint-staged": "^11.1.2",
