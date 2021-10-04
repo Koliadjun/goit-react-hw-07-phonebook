@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import shortid from 'shortid';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import s from './ContactForm.module.css';
-import { contactsOperations } from 'redux/Phonebook';
+import { contactsOperations, contactsSelectors } from 'redux/Phonebook';
 
 function ContactForm() {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
+  const items = useSelector(contactsSelectors.getItems);
 
   const handleInputChange = e => {
     const currentTarget = e.currentTarget;
+
     switch (currentTarget.name) {
       case 'name': {
         setName(currentTarget.value);
@@ -29,7 +31,15 @@ function ContactForm() {
 
   const handleSubmit = e => {
     e.preventDefault();
-    dispatch(contactsOperations.addContact({ name, number }));
+    const dataNameNormalized = name.toLowerCase();
+    const findItem = items.find(
+      contact => contact.name.toLowerCase() === dataNameNormalized,
+    );
+    if (findItem) {
+      alert(`${findItem.name} is already in contacts`);
+    } else {
+      dispatch(contactsOperations.addContact({ name, number }));
+    }
     reset();
   };
 
